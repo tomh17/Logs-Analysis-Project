@@ -2,15 +2,28 @@
 For Udacity course: Build a reporting tool that answers three questions provided by Udacity. 1. Which articles were the most popular 2. Which author had the most cumulative views 3. Which dates had error percentages above 1%
 
 # Necessary Tools / Materials
- Vagrant VM as well as VirtualBox software donwloaded on machine.You will also need access the the "news" databse provided by Udacity.   The querying is done using postgreSQL as well python 3.7. 
+ Vagrant VM as well as VirtualBox software donwloaded on machine.You will also need access the the "news" databse provided by Udacity.   The querying is done using postgreSQL 9.5 as well python 3.7. 
+
+Once you have acces to the "news" database and are in the correct vagrant directory you can type:
+
+>psql news
+
+And from there you can begin to work with the appropriate tables. 
 
 You must create two views for this code to work properly. They are as follows:
-1. CREATE VIEW all_connections AS SELECT substring(time::text, 0, 11)
-AS DATE, COUNT(status) AS all FROM log GROUP BY date ORDER BY date DESC;
 
-2.CREATE VIEW not_running AS SELECT substring(time::text, 0, 11) AS DATE,
-COUNT(status) AS not_ok FROM log WHERE status='404 NOT FOUND' GROUP BY
-date ORDER BY date DESC;
+>CREATE VIEW all_connections AS SELECT substring(time::text, 0, 11)
+>AS DATE, COUNT(status) AS all FROM log GROUP BY date ORDER BY date DESC;
+
+>CREATE VIEW not_running AS SELECT substring(time::text, 0, 11) AS DATE,
+>COUNT(status) AS not_ok FROM log WHERE status='404 NOT FOUND' GROUP BY
+>date ORDER BY date DESC;
+
+# Running the Code
+
+You must have the file saved on the Vagrant virtual machine with access to Udacity's "news" database. The code can be ran from the command line as follows:
+
+> $ python3 logs_analysis1.py
 
 # Explanation of code for most_pop_articles():
 1. Using psycopg2 we can connect to the database using DNname
@@ -43,17 +56,19 @@ This is almost identical to the "most popular articles" function above except th
 
 # Explanation of code for error_dates():
 For this function I needed to create two views. They are as follows:
-CREATE VIEW all_connections AS SELECT substring(time::text, 0, 11)
-AS DATE, COUNT(status) AS all FROM log GROUP BY date ORDER BY date DESC;
 
-1. all_connections: a view that lists all the dates in order by date
+>CREATE VIEW all_connections AS SELECT substring(time::text, 0, 11)
+>AS DATE, COUNT(status) AS all FROM log GROUP BY date ORDER BY date DESC;
+
+all_connections: a view that lists all the dates in order by date
 along with the number of views on each day (all = number of connections)
 
 The second view I created is as follows:
 
-CREATE VIEW not_running AS SELECT substring(time::text, 0, 11) AS DATE,
-COUNT(status) AS not_ok FROM log WHERE status='404 NOT FOUND' GROUP BY
-date ORDER BY date DESC;
+>CREATE VIEW not_running AS SELECT substring(time::text, 0, 11) AS DATE,
+>COUNT(status) AS not_ok FROM log WHERE status='404 NOT FOUND' GROUP BY
+>date ORDER BY date DESC;
+
 This view displays the number of times the connections failed
 aka where there was a "404 not found" error.
 This view was also ordered by date allowing me to connect all_connections with not_running since both have a matching column (date) 

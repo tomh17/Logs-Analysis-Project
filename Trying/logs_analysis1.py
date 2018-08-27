@@ -4,7 +4,7 @@ import psycopg2
 
 DBNAME = "news"
 
-# What are th most popular three articles of all time?
+# What are the most popular three articles of all time?
 
 
 def most_pop_article():
@@ -84,16 +84,7 @@ most_pop_authors()
 def error_dates():
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
-    c.execute(""" CREATE VIEW not_running AS SELECT 
-    	          substring(time::text, 0, 11) AS DATE,
-                  COUNT(status) AS not_ok FROM log
-                  WHERE status='404 NOT FOUND' GROUP BY
-                  date ORDER BY date DESC;
-                  CREATE VIEW all_connections AS SELECT 
-                  substring(time::text, 0, 11)
-                  AS DATE, COUNT(status) AS all FROM log 
-                  GROUP BY date ORDER BY date DESC;
-                  SELECT
+    c.execute(""" SELECT
                   TO_CHAR(not_running.date::timestamp, 'Month DD, YYYY'),
                   ROUND(100.0*not_running.not_ok/all_connections.all, 2)
                   AS error_pct
@@ -116,9 +107,9 @@ error_dates()
 # along with the number of views on each day (all = number of connections)
 # I used the substring function to only
 # incorporate the date (YYYY-MM-DD) into the table
-#
+
 # The second view I created is as follows:
-#
+
 # CREATE VIEW not_running AS SELECT substring(time::text, 0, 11) AS DATE,
 # COUNT(status) AS not_ok FROM log WHERE status='404 NOT FOUND' GROUP BY
 # date ORDER BY date DESC;

@@ -84,7 +84,17 @@ most_pop_authors()
 def error_dates():
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
-    c.execute(""" SELECT TO_CHAR(not_running.date::timestamp, 'Month DD, YYYY'),
+    c.execute(""" CREATE VIEW not_running AS SELECT 
+    	          substring(time::text, 0, 11) AS DATE,
+                  COUNT(status) AS not_ok FROM log
+                  WHERE status='404 NOT FOUND' GROUP BY
+                  date ORDER BY date DESC;
+                  CREATE VIEW all_connections AS SELECT 
+                  substring(time::text, 0, 11)
+                  AS DATE, COUNT(status) AS all FROM log 
+                  GROUP BY date ORDER BY date DESC;
+                  SELECT
+                  TO_CHAR(not_running.date::timestamp, 'Month DD, YYYY'),
                   ROUND(100.0*not_running.not_ok/all_connections.all, 2)
                   AS error_pct
                   FROM not_running, all_connections

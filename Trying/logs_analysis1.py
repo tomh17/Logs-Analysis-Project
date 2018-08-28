@@ -1,3 +1,4 @@
+# !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import psycopg2
@@ -38,18 +39,18 @@ most_pop_article()
 # and then indented the results using \t, then the title article,
 # then a hyphen to separate the article name from it's number of
 # views
-# returns the title of the article as well as a count 
+# returns the title of the article as well as a count
 # of all the times that the slug=path
 # aka everytime the article was viewed
 
-# 2. Who are the most popular article authors of all time? That is, when you 
-# sum up all of the articles each author has written, which authors get 
-# the most page views? Present this as a sorted list with the most popular 
+# 2. Who are the most popular article authors of all time? That is, when you
+# sum up all of the articles each author has written, which authors get
+# the most page views? Present this as a sorted list with the most popular
 # author at the top.
 
 
 def most_pop_authors():
-    db = psycopg2.connect(database=DBNAME)  
+    db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
     c.execute("""SELECT authors.name, COUNT(articles.title)
               AS views FROM authors, log, articles
@@ -127,4 +128,4 @@ error_dates()
 # dates where the error percentage is greater than 1%
 # within the python code, I added a "%" to the end of the decimal so the
 # user sees is as a percentage. The ROUND function is used so that the
-# decimal produced only has two decimal places. 
+# decimal produced only has two decimal places.

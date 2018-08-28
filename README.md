@@ -2,9 +2,24 @@
 For Udacity course: Build a reporting tool that answers three questions provided by Udacity. 1. Which articles were the most popular 2. Which author had the most cumulative views 3. Which dates had error percentages above 1%
 
 # Necessary Tools / Materials
- Vagrant VM as well as VirtualBox software donwloaded on machine.You will also need access the the "news" databse provided by Udacity.   The querying is done using postgreSQL 9.5 as well python 3.7. 
+ Python 3 Programming language: 
+ https://www.python.org/downloads/
 
-Once you have acces to the "news" database and are in the correct vagrant directory you can type:
+ Vagrant VM as well as VirtualBox software donwloaded on machine.
+ 
+ Vagrant VM:
+ https://www.vagrantup.com/
+ 
+ VirtualBox download: 
+ https://www.virtualbox.org/wiki/Downloads
+ 
+You will also need access the the "news" database provided by Udacity. The querying is done using postgreSQL 9.5 which is installed on the Virtual Machine. 
+
+Instructions for accessing the "news" database and proper setup are within the link below: 
+
+https://classroom.udacity.com/nanodegrees/nd004/parts/8d3e23e1-9ab6-47eb-b4f3-d5dc7ef27bf0/modules/bc51d967-cb21-46f4-90ea-caf73439dc59/lessons/262a84d7-86dc-487d-98f9-648aa7ca5a0f/concepts/a9cf98c8-0325-4c68-b972-58d5957f1a91
+
+Once you have access to the "news" database and are in the correct vagrant directory you can type:
 
 >psql news
 
